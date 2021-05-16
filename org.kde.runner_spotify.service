@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=org.kde.runner_spotify
+Exec=/usr/bin/python3 "%{PROJECTDIR}/runner_spotify.py"

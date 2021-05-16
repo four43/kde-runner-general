@@ -1,0 +1,16 @@
+[Desktop Entry]
+Name=Runner Spotify
+Comment=Spotify Runner written in Python
+Type=Service
+X-KDE-ServiceTypes=Plasma/Runner
+
+Icon=com.spotify.Client
+X-KDE-PluginInfo-Author=Seth Miller
+X-KDE-PluginInfo-Email=seth@four43.com
+X-KDE-PluginInfo-Name=runner_spotify
+X-KDE-PluginInfo-Version=1.0
+X-KDE-PluginInfo-License=LGPL
+X-KDE-PluginInfo-EnabledByDefault=true
+X-Plasma-API=DBus
+X-Plasma-DBusRunner-Service=org.kde.runner_spotify
+X-Plasma-DBusRunner-Path=/runner_spotify
