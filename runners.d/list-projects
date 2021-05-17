@@ -1,0 +1,66 @@
+#!/bin/bash
+set -e
+usage="$(basename $0) - List Projects Runner Helper
+
+Lists all of my development projects in ~/projects/[category]/[project name]
+
+Actions:
+  actions - List available commands for consumption by runner_general
+    A tab delimited format of:
+    [key]\t[command] [args]\t[description]\t[icon]\t[subtext]
+"
+
+action="$1"
+shift
+if [[ -z "$action" ]] || [[ "$action" == "-h" ]] || [[ "$action" == "--help" ]]; then
+  echo "$usage" >&2
+  exit 0
+fi
+
+PROJ_EDITOR_JS="${PROJ_EDITOR_JS:-phpstorm}"
+PROJ_EDITOR_PHP="${PROJ_EDITOR_PHP:-phpstorm}"
+PROJ_EDITOR_PYTHON="${PROJ_EDITOR_PYTHON:-pycharm}"
+PROJ_EDITOR_DEFAULT="${PROJ_EDITOR_DEFAULT:-$PROJ_EDITOR_PYTHON}"
+
+function get-icon() {
+  # For flatpak icons you may need to copy over the .desktop file https://askubuntu.com/a/1310310/267897
+  # sudo ln -s /var/lib/flatpak/app/com.jetbrains.PhpStorm/current/active/files/share/applications/*.desktop /usr/share/applications
+  path="$1"
+
+  project_files="$(find $path -maxdepth 1 -mindepth 1)"
+  if (echo "$project_files" | grep -qE 'package.json$'); then
+    echo "phpstorm"
+  elif (echo "$project_files" | grep -qE '(Pipfile|requirements\.txt|setup\.py|poetry\.lock)$'); then
+    echo "pycharm"
+  elif (echo "$project_files" | grep -qE 'composer.json$'); then
+    echo "com.jetbrains.PhpStorm"
+  else
+    echo "project-development-new-template"
+  fi
+}
+
+function actions() {
+  find ~/projects -maxdepth 2 -mindepth 2 | while read line; do
+    proj_name="$(echo "$line" | rev | cut -d "/" -f 1 - | rev)"
+    proj_category="$(echo "$line" | rev | cut -d "/" -f 2 - | rev)"
+    echo -e "${proj_name}\topen ${line}\tOpen Project ${proj_name} in ${proj_category}\t$(get-icon $line)"
+  done
+}
+
+function open() {
+  echo "Would open $1"
+}
+
+case "$action" in
+"actions")
+  actions
+  ;;
+"open")
+  open $@
+  ;;
+*)
+  echo "No action available by the name: ${action}" >&2
+  echo "$usage" >&2
+  exit 1
+  ;;
+esac

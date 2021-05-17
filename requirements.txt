@@ -1,1 +1,2 @@
 rapidfuzz==1.4.1
+dbus-python==1.2.16

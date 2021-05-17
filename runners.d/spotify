@@ -1,11 +1,13 @@
 #!/bin/bash
 set -e
-usage="$0 Spotify Runner Helper
+usage="$0 - Spotify Runner Helper
 
-Controlls spotify via DBUS, conforming to krunner_shell spec.
+Controls spotify via DBUS, conforming to runner_general spec.
 
 Actions:
-  list - List available commands for consumption by krunner
+  actions - List available commands for consumption by runner_general
+    A tab delimited format of:
+    [key]\t[command] [args]\t[description]\t[icon]\t[subtext]
 "
 
 action="$1"
@@ -15,13 +17,13 @@ if [[ -z "$action" ]] || [[ "$action" == "-h" ]] || [[ "$action" == "--help" ]];
     exit 0
 fi
 
-function list() {
-    echo -e "lofi\tplay playlist:74sUjcvpGfdOvCHvgzNEDO\tPlay Lofi Hip Hop Beats on Spotify\tmedia-playback-start\tmusic to study/relax to"
+function actions() {
+    echo -e "lofi\tplay-uri playlist:74sUjcvpGfdOvCHvgzNEDO\tPlay Lofi Hip Hop Beats on Spotify\tmedia-playback-start\tmusic to study/relax to"
     echo -e "pause\tpause\tPause Spotify playback\tmedia-playback-pause"
     echo "META-CACHE=60"
 }
 
-function play() {
+function play-uri() {
     dbus-send \
     --type=method_call \
     --dest=org.mpris.MediaPlayer2.spotify \
@@ -30,10 +32,10 @@ function play() {
 }
 
 case "$action" in
-    "list")
-        list
+    "actions")
+        actions
         ;;
-    "play")
+    "play-uri")
         play $@
         ;;
 esac

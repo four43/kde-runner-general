@@ -10,8 +10,8 @@ fi
 mkdir -p "$prefix/kservices5/krunner/dbusplugins/"
 mkdir -p "$prefix/dbus-1/services/"
 
-cp "${DIR}/plasma-runner-spotify.desktop" "$prefix/kservices5/krunner/dbusplugins/"
-sed "s|%{PROJECTDIR}/runner_spotify.py|${PWD}/runner_spotify.py|" "org.kde.runner_spotify.service" > "$prefix/dbus-1/services/org.kde.runner_spotify.service"
+cp "${DIR}/plasma-runner-general.desktop" "$prefix/kservices5/krunner/dbusplugins/"
+sed "s|%{PROJECTDIR}/runner_general.py|${PWD}/runner_general.py|" "org.kde.runner_general.service" > "$prefix/dbus-1/services/org.kde.runner_general.service"
 
-ps -ef | grep 'runner_spotify.py$' | awk '{print $2}' | xargs kill || true
+ps -ef | grep 'runner_general.py$' | awk '{print $2}' | xargs kill || true
 kquitapp5 krunner

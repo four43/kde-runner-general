@@ -1,9 +1,4 @@
+/.venv
+
 /.idea
-/.vscode
-/bin
-/.metadata
-/target
-/.settings
-/dist
-/.vscode
 *.log
